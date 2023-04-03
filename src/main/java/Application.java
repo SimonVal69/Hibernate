@@ -44,7 +44,7 @@ public class Application {
     //Удаление конкретного объекта Employee из базы по id
     public static void task4(EmployeeService employeeService) {
         System.out.println("Удаление конкретного объекта Employee из базы по id");
-        Long id = 18L;
+        Long id = 21L;
         employeeService.deleteById(id);
     }
 

@@ -1,6 +1,7 @@
 package dao;
 
 import model.Employee;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -37,11 +38,18 @@ public class EmployeeDAO implements EmployeeDAOInterface<Employee, Long> {
     }
 
     private static SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(Employee.class);
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties());
-        return configuration.buildSessionFactory(builder.build());
+        SessionFactory sessionFactory = null;
+        try {
+            Configuration configuration = new Configuration().configure();
+            configuration.addAnnotatedClass(Employee.class);
+            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties());
+            sessionFactory = configuration.buildSessionFactory(builder.build());
+        } catch (HibernateException h) {
+            System.out.println("Ошибка при инициализации сессии Hibernate!");
+            h.printStackTrace();
+        }
+        return sessionFactory;
     }
 
     public Session getCurrentSession() {
