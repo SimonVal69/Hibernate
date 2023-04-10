@@ -1,5 +1,6 @@
 package dao;
 
+import model.City;
 import model.Employee;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -41,7 +42,8 @@ public class EmployeeDAO implements EmployeeDAOInterface<Employee, Long> {
         SessionFactory sessionFactory = null;
         try {
             Configuration configuration = new Configuration().configure();
-            configuration.addAnnotatedClass(Employee.class);
+            configuration.addAnnotatedClass(City.class)
+                    .addAnnotatedClass(Employee.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
@@ -68,22 +70,27 @@ public class EmployeeDAO implements EmployeeDAOInterface<Employee, Long> {
         this.currentTransaction = currentTransaction;
     }
 
+    @Override
     public void addNewEmployee(Employee entity) {
         getCurrentSession().save(entity);
     }
 
+    @Override
     public void updateById(Employee entity) {
         getCurrentSession().update(entity);
     }
 
+    @Override
     public Employee findById(Long id) {
         return getCurrentSession().get(Employee.class, id);
     }
 
+    @Override
     public void deleteById(Employee entity) {
         getCurrentSession().delete(entity);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Employee> findAll() {
         return (List<Employee>) getCurrentSession().createQuery("from Employee order by id").list();

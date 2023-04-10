@@ -1,6 +1,8 @@
 package model;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import java.util.List;
 
 @Entity
 @Table(name = "city", schema = "public", catalog = "skypro")
@@ -12,6 +14,15 @@ public class City {
     @Basic
     @Column(name = "city_name", nullable = false, length = 50)
     private String cityName;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Employee> employees;
+
+    public City(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public City() {
+    }
 
     public long getCityId() {
         return cityId;
@@ -27,5 +38,22 @@ public class City {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "cityId=" + cityId +
+                ", cityName='" + cityName + '\'' +
+                ", employees=" + employees +
+                '}';
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }
