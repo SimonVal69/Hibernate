@@ -18,17 +18,20 @@ public class Application {
 
         Employee employee1 = new Employee("Tosh", "Simpson", "male", 33, 7L);
         Employee employee2 = new Employee("Anna", "Bawl", "male", 50, 4L);
-        Employee employee3 = new Employee("Betty", "Trump", "female", 19, 3L);
+        Employee employee3 = new Employee("Betty", "Trump", "female", 19, 2L);
 
         addNewEmployee(employeeService, employee1);
         addNewEmployee(employeeService, employee2);
         addNewEmployee(employeeService, employee3);
 
-        updateEmployeeById(employeeService, 31L);
+        updateEmployeeById(employeeService, 34L, 7L);
 
         deleteCityById(cityService, 7L);
 
         findAllCities(cityService);
+
+        deleteEmployeeById(employeeService, 34L);
+
         findAllEmployees(employeeService);
 
     }
@@ -56,10 +59,10 @@ public class Application {
     }
 
     //Изменение конкретного объекта Employee в базе по id
-    public static void updateEmployeeById(EmployeeService employeeService, Long id) {
+    public static void updateEmployeeById(EmployeeService employeeService, Long id, Long newCityId) {
         System.out.println("Изменение конкретного объекта Employee в базе по id");
         Employee updateEmployeeById = employeeService.findById(id);
-        updateEmployeeById.setCityId(6L);
+        updateEmployeeById.setCityId(newCityId);
         employeeService.updateById(updateEmployeeById);
     }
 
@@ -67,6 +70,15 @@ public class Application {
     public static void deleteCityById(CityService cityService, Long id) {
         System.out.println("Удаление конкретного объекта City из базы по id");
         cityService.deleteById(id);
+    }
+
+    //Удаление конкретного объекта Employee из базы по id
+    public static void deleteEmployeeById(EmployeeService employeeService, Long id) {
+        System.out.println("Удаление конкретного объекта City из базы по id");
+        Employee updateEmployeeById = employeeService.findById(id);
+        updateEmployeeById.setCityId(null);
+        employeeService.updateById(updateEmployeeById);
+        employeeService.deleteById(id);
     }
 
     //Получение списка всех объектов Employee из базы

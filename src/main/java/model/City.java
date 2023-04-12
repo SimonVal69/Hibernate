@@ -1,5 +1,8 @@
 package model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.List;
@@ -9,12 +12,13 @@ import java.util.List;
 public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "city_id", nullable = false)
+    @Column(name = "city_id")
     private long cityId;
     @Basic
-    @Column(name = "city_name", nullable = false, length = 50)
+    @Column(name = "city_name", length = 50)
     private String cityName;
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Employee> employees;
 
     public City(String cityName) {
